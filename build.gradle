@@ -1,0 +1,37 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+android {
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 35
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.aar'])  // ✅ This tells Gradle to include your AAR file
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.admamba.playadvertiser'
+            artifactId = 'playloopadsdk'
+            version = '1.0.0'
+
+            afterEvaluate {
+                artifact(file('libs/PlayloopAdvertiser.aar'))  // ✅ JitPack will publish this AAR file
+            }
+        }
+    }
+}
